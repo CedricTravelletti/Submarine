@@ -1,5 +1,16 @@
 """ Module containing the different sampling strategies.
 
+Data Structures
+---------------
+world_graph: Dict{Dict}
+    Describes the accessible locations. Keys are the index of the nodes. Values
+    are dictionaries, having as keys the index of the neighbouring nodes.
+    I DONT KNOW WHAT THE VALUES OF THIS INNER DICTIONARY REPRESENT. DISTANCES?
+world_node_loc: Dict{array}
+    Describes the absolute locations of the nodes in the graph. Keys are
+    indices of the nodes. Values are array[float, float] giving the lat/lon of
+    each node.
+
 """
 from supporting_functions import *
 from plotting import *
