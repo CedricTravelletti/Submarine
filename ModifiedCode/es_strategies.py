@@ -1,8 +1,54 @@
+""" Module containing the different sampling strategies.
+
+"""
 from supporting_functions import *
+from plotting import *
 import time
 
 
-def prepare_grid(
+# Find the alternative routes - recursively
+def find_all_routes(world_graph, starting_point, look_ahead=2):
+    """ Find all paths of given length from starting point.
+
+    Parameters
+    ----------
+    world_graph
+    starting_point: int
+        Index of starting cell in the graph.
+    look_ahead: int
+        Length of the paths. Includes the starting point.
+
+    Returns
+    -------
+    List[List[int]]
+        List of paths. Each path is a list containing indices of the nodes in
+        the path (ordered with starting point first).
+
+    """
+    def find_all_paths(world_graph, starting_point, path=[], horizon=look_ahead):
+        # If path already correct length, stop.
+        if len(path) >= horizon:
+            return []
+        path = path + [starting_point]
+        if len(path) == horizon:
+            return [path]
+        paths = []
+        for node in world_graph[starting_point].keys():
+            paths += find_all_paths(world_graph, node, path, horizon=look_ahead)
+        return paths
+
+    all_paths = find_all_paths(world_graph, starting_point)
+
+    # Only keep the ones that have the correct length.
+    sane_routes = []
+    for p in all_paths:
+        if len(np.unique(p)) == look_ahead:
+            sane_routes.append(p)
+        else:
+            pass
+    return sane_routes
+
+def prepare_ev_grid(
         world_grid, world_node_loc, starting_point,
         nx, ny, cell_horizon=15):
     """ Calculate at which indexes should the expected variance be calculated.
@@ -50,47 +96,38 @@ def lookahead(
     """ Search optimal next waypoint
     Uses 2 steps lookahed with GP update and Markow simulation.
 
+    Parameters
+    ----------
+    starting_point: int
+        Index of the starting point in the world_grid.
+    world_grid
+    world_graph
+    Th
+    Sig_cond
+    noise
+    world_node_loc
+    world_meas_nodes
+    pred_field
     nx: int
         Number of cells in x direction.
     ny: int
         Number of cells in y direction.
+    prev_evar
+
+    Returns
+    -------
 
     """
     fnp_init = time.time()
     Resulting_Variance_Change = {}
     Criteria = {}
     
-    eval_indexes = prepare_grid(world_grid, world_node_loc, starting_point,
+    eval_indexes = prepare_ev_grid(world_grid, world_node_loc, starting_point,
             nx, ny)
 
     n = nx * ny
 
-    # Find the alternative routes - recursively
-    def find_all_routes(world_graph, starting_point, look_ahead=2):
-
-        def find_all_paths(world_graph, starting_point, path=[], horizon=look_ahead):
-            if len(path) >= horizon:
-                return []
-            path = path + [starting_point]
-            if len(path) == horizon:
-                return [path]
-            paths = []
-            for node in world_graph[starting_point].keys():
-                paths += find_all_paths(world_graph, node, path, horizon=look_ahead)
-            return paths
-
-        all_paths = find_all_paths(world_graph, starting_point)
-
-        sane_routes = []
-        for p in all_paths:
-            if len(np.unique(p)) == look_ahead:
-                sane_routes.append(p)
-            else:
-                pass
-        return sane_routes
-
     routes = find_all_routes(world_graph, starting_point)
-    # route_dist = [wgs84_dist(world_node_loc[r[0]][1], world_node_loc[r[0]][0], world_node_loc[r[1]][1], world_node_loc[r[1]][0]) for r in routes]
 
     alternative = 0
 
@@ -242,55 +279,21 @@ def lookahead(
     return routes[best_node_c][1]
 
 
-def myopic(starting_point, world_grid, world_graph, Th, Sig_cond, noise, world_node_loc, world_meas_nodes, pred_field, res_x, res_y, prev_evar):
+def myopic(
+        starting_point, world_grid, world_graph,
+        Th, Sig_cond, noise, world_node_loc, world_meas_nodes,
+        pred_field, nx, ny, prev_evar):
     print('Searching for the optimal next waypoint - Myopic')
     fnp_init = time.time()
     Resulting_Variance_Change = {}
     Criteria = {}
-    nx = res_x
-    ny = res_y
+
+    eval_indexes = prepare_ev_grid(world_grid, world_node_loc, starting_point,
+            nx, ny)
+
     n = nx * ny
 
-    # Interesting cells to evaluate
-    cx, cy, cell_origin = world_grid.getGridCoordinates(world_node_loc[starting_point][1], world_node_loc[starting_point][0], res_gx=nx, res_gy=ny)
-    cell_indexes = np.array(np.arange(0, res_x * res_y)).reshape(res_x, res_y)
-    dummy = np.zeros((res_x, res_y))
-    cell_horizon = 15
-    n_idx = np.arange(cx - cell_horizon, cx + cell_horizon)
-    n_idy = np.arange(cy - cell_horizon, cy + cell_horizon)
-    n_idx = n_idx[n_idx >= 0]
-    n_idx = n_idx[n_idx < res_x]
-    n_idy = n_idy[n_idy >= 0]
-    n_idy = n_idy[n_idy < res_y]
-    eval_indexes = np.array(cell_indexes[np.ix_(n_idx, n_idy)]).flatten()
-    dummy[np.ix_(n_idx, n_idy)] = 1
-
-    # Find the alternative routes - recursively
-    def find_all_routes(world_graph, starting_point, look_ahead=2):
-
-        def find_all_paths(world_graph, starting_point, path=[], horizon=look_ahead):
-            if len(path) >= horizon:
-                return []
-            path = path + [starting_point]
-            if len(path) == horizon:
-                return [path]
-            paths = []
-            for node in world_graph[starting_point].keys():
-                paths += find_all_paths(world_graph, node, path, horizon=look_ahead)
-            return paths
-
-        all_paths = find_all_paths(world_graph, starting_point)
-
-        sane_routes = []
-        for p in all_paths:
-            if len(np.unique(p)) == look_ahead:
-                sane_routes.append(p)
-            else:
-                pass
-        return sane_routes
-
     routes = find_all_routes(world_graph, starting_point)
-    # route_dist = [wgs84_dist(world_node_loc[r[0]][1], world_node_loc[r[0]][0], world_node_loc[r[1]][1], world_node_loc[r[1]][0]) for r in routes]
 
     for alternative in world_graph:
 
@@ -299,7 +302,7 @@ def myopic(starting_point, world_grid, world_graph, Th, Sig_cond, noise, world_n
             num_of_measurements = world_meas_nodes[(starting_point, alternative)].shape[0]
             num_of_cells_assimilated = 0
             old_si = None
-            GG = np.zeros((2 * num_of_measurements, 2 * res_x * res_y))
+            GG = np.zeros((2 * num_of_measurements, 2 * nx * ny))
             obs_counter = 0
 
             # == Adding the intermediate samples
