@@ -5,15 +5,6 @@ import pickle
 from es_strategies import *
 
 
-# == Plotting
-import matplotlib
-matplotlib.rcParams['pdf.fonttype'] = 42
-matplotlib.rcParams['ps.fonttype'] = 42
-from matplotlib import pyplot as plt
-plt.ioff()  # Running plt.ioff() - plots are kept in background, plt.ion() plots are shown as they are generated
-plt.rcParams["font.family"] = "Times New Roman"
-plt.rcParams.update({'font.size': 26})
-
 # === Simname
 simname = 'off-center_1_20'
 
@@ -286,11 +277,9 @@ for conf in sim_configs:
 
 
 
-
 # -----
 # PERSO
 # -----
-
 covars = np.array(
         [np.repeat(1, n), np.sqrt((sites[0] - np.repeat(1, n) * sitesSOURCE) ** 2)[0, :]]).T
 # Add trend (Assumes middle centered)
@@ -332,32 +321,19 @@ C0 = [[1, sig_st], [sig_st, 1]]
 Ct = np.kron(C0, C)
 
 
-mygrid = prepare_grid(grid, graph_node_points, curr_point, nx, ny)
+mygrid = prepare_ev_grid(grid, graph_node_points, curr_point, nx, ny)
 
 evar = ExpectedVariance2(
         Th, x_prior, Ct, np.zeros((2 * 1, 2 * nx * ny)),
         noise * np.eye(2 * 1), np.arange(0, nx * ny))
 
 next_point = lookahead(
-        curr_point, grid, graph, Th, Ct,
+        curr_point, grid, graph,
+        Th, Ct,
         noise, graph_node_points, graph_meas_nodes,
         x_prior, nx, ny, prev_evar=evar)
 # ----------------------------------------------------
 # ----------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

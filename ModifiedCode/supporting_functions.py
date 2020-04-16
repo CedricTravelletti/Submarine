@@ -260,6 +260,8 @@ def build_graph(X_p, x_resolution, y_resolution):
 
     What it does.
 
+    Are G_node_positions and G_node_points the same?
+
     Parameters
     ----------
     X_p
