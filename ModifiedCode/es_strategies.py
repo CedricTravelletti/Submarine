@@ -13,8 +13,8 @@ world_node_loc: Dict{array}
     each node.
 
 """
-from supporting_functions import *
-from plotting import *
+from .supporting_functions import *
+from .plotting import *
 import time
 
 
@@ -37,7 +37,9 @@ def find_all_routes(world_graph, starting_point, look_ahead=2):
         the path (ordered with starting point first).
 
     """
-    def find_all_paths(world_graph, starting_point, path=[], horizon=look_ahead):
+
+    def find_all_paths(world_graph, starting_point, path=[],
+                       horizon=look_ahead):
         # If path already correct length, stop.
         if len(path) >= horizon:
             return []
@@ -46,7 +48,8 @@ def find_all_routes(world_graph, starting_point, look_ahead=2):
             return [path]
         paths = []
         for node in world_graph[starting_point].keys():
-            paths += find_all_paths(world_graph, node, path, horizon=look_ahead)
+            paths += find_all_paths(world_graph, node, path,
+                                    horizon=look_ahead)
         return paths
 
     all_paths = find_all_paths(world_graph, starting_point)
@@ -60,10 +63,12 @@ def find_all_routes(world_graph, starting_point, look_ahead=2):
             pass
     return sane_routes
 
+
 def prepare_ev_grid(
         world_grid, world_node_loc, starting_point,
         nx, ny, cell_horizon=15):
-    """ Calculate at which indexes should the expected variance be calculated.
+    """ Calculate at which indexes should the expected variance should be
+        calculated.
 
     Parameters
     ----------
@@ -75,7 +80,8 @@ def prepare_ev_grid(
     ny: int
         Number of cells in y direction.
     cell_horizon: int
-        Specifies how long the calc. horizon should be, to limit the number of evaluations
+        Specifies how long the calc. horizon should be, to limit the number of
+        evaluations
 
     Returns
     -------
@@ -86,8 +92,8 @@ def prepare_ev_grid(
     """
     n = nx * ny
     cx, cy, cell_origin = world_grid.getGridCoordinates(
-            world_node_loc[starting_point][1], world_node_loc[starting_point][0],
-            res_gx=nx, res_gy=ny)
+        world_node_loc[starting_point][1], world_node_loc[starting_point][0],
+        res_gx=nx, res_gy=ny)
     cell_indexes = np.array(np.arange(0, n)).reshape(nx, ny)
 
     n_idx = np.arange(cx - cell_horizon, cx + cell_horizon)
@@ -101,12 +107,13 @@ def prepare_ev_grid(
 
     return eval_indexes
 
+
 def lookahead(
         starting_point, world_grid, world_graph,
         Th, Sig_cond, noise, world_node_loc, world_meas_nodes,
         pred_field, nx, ny, prev_evar):
     """ Search optimal next waypoint
-    Uses 2 steps lookahed with GP update and Markow simulation.
+    Uses a 2 step lookahed with GP update and Markow simulation.
 
     Parameters
     ----------
@@ -114,7 +121,8 @@ def lookahead(
         Index of the starting point in the world_grid.
     world_grid
     world_graph
-    Th
+    Th: float
+        The excursion threshold
     Sig_cond
     noise
     world_node_loc
@@ -133,9 +141,9 @@ def lookahead(
     fnp_init = time.time()
     Resulting_Variance_Change = {}
     Criteria = {}
-    
+
     eval_indexes = prepare_ev_grid(world_grid, world_node_loc, starting_point,
-            nx, ny)
+                                   nx, ny)
 
     n = nx * ny
 
@@ -162,7 +170,8 @@ def lookahead(
             pred_yt = []
             pred_ys = []
 
-            num_of_measurements = world_meas_nodes[(start_node, end_node)].shape[0]
+            num_of_measurements = \
+            world_meas_nodes[(start_node, end_node)].shape[0]
             num_of_cells_assimilated = 0
             old_si = None
             GG = np.zeros((2 * num_of_measurements, 2 * nx * ny))
@@ -173,7 +182,10 @@ def lookahead(
                 # Observations
                 sample_lt = loc[1]
                 sample_ln = loc[0]
-                sx, sy, si = world_grid.getGridCoordinates(sample_lt, sample_ln, res_gx=nx, res_gy=ny)
+                sx, sy, si = world_grid.getGridCoordinates(sample_lt,
+                                                           sample_ln,
+                                                           res_gx=nx,
+                                                           res_gy=ny)
                 if not old_si:
                     old_si = si
                     num_of_cells_assimilated += 1
@@ -200,13 +212,15 @@ def lookahead(
                 pred_ys.append(estimated_field[n:][si])
 
             # Measurement noise
-            RR = np.diag(np.repeat(noise[0, 0], num_of_measurements).tolist() + np.repeat(noise[1, 1], num_of_measurements).tolist())
+            RR = np.diag(np.repeat(noise[0, 0], num_of_measurements).tolist()
+               + np.repeat(noise[1, 1], num_of_measurements).tolist())
 
-            # Simulated Measurement - updated using Cholesky w/ cross-correlation
+            # Simul. Measurement - updated using Cholesky w/ cross-correlation
             mu_sim = np.dot(GG, estimated_field)
             sigma_sim = np.dot(np.dot(GG, estimated_Sig_cond), GG.T) + RR
             L_sim = np.linalg.cholesky(sigma_sim)
-            sim_vals = mu_sim + np.dot(L_sim, np.random.randn(2 * num_of_measurements, 1))
+            sim_vals = mu_sim + \
+                np.dot(L_sim, np.random.randn(2 * num_of_measurements, 1))
 
             # Update the field - Simulate actual sampling
             y_measurement = sim_vals
@@ -216,14 +230,19 @@ def lookahead(
             C1 = np.dot(estimated_Sig_cond, GG.T)
             C2 = np.dot(GG, np.dot(estimated_Sig_cond, GG.T)) + RR
             innovation = y_measurement - pred_y
-            similarity = np.array(np.linalg.lstsq(C2, innovation, rcond=None)[0])
-            uncertainty_reduction = np.array(np.linalg.lstsq(C2, np.dot(GG, estimated_Sig_cond), rcond=None)[0])
+            similarity = np.array(
+                np.linalg.lstsq(C2, innovation, rcond=None)[0])
+            uncertainty_reduction = np.array(
+                np.linalg.lstsq(C2, np.dot(GG, estimated_Sig_cond),
+                                rcond=None)[0])
 
             # Load the new measurement into the predicted environment
-            estimated_field = estimated_field + np.dot(C1, similarity)  # Update the predicted environment
+            estimated_field = estimated_field + \
+                np.dot(C1, similarity)  # Update the predicted environment
 
             # Update the new uncertainty
-            estimated_Sig_cond = estimated_Sig_cond - np.dot(C1, uncertainty_reduction)
+            estimated_Sig_cond = estimated_Sig_cond - \
+                np.dot(C1, uncertainty_reduction)
 
             next_routes = find_all_routes(world_graph, end_node, look_ahead=2)
             next_nodes = [node[1] for node in next_routes]
@@ -238,7 +257,8 @@ def lookahead(
 
                 print('Evaluating integral over node: {}'.format(nn))
 
-                num_of_measurements2 = world_meas_nodes[(end_node, nn)].shape[0]
+                num_of_measurements2 = world_meas_nodes[(end_node, nn)].shape[
+                    0]
                 GG2 = np.zeros((2 * num_of_measurements2, 2 * nx * ny))
                 obs_counter2 = 0
 
@@ -247,15 +267,23 @@ def lookahead(
                     # Observations
                     sample_lt = loc[1]
                     sample_ln = loc[0]
-                    sx, sy, si = world_grid.getGridCoordinates(sample_lt, sample_ln, res_gx=nx, res_gy=ny)
+                    sx, sy, si = world_grid.getGridCoordinates(sample_lt,
+                                                               sample_ln,
+                                                               res_gx=nx,
+                                                               res_gy=ny)
                     GG2[obs_counter2, si] = 1
-                    GG2[num_of_measurements2 + obs_counter2, (nx * ny) + si] = 1
+                    GG2[num_of_measurements2 + obs_counter2, (
+                                nx * ny) + si] = 1
                     obs_counter2 += 1
 
                 # Measurement noise
-                RR2 = np.diag(np.repeat(noise[0, 0], num_of_measurements2).tolist() + np.repeat(noise[1, 1], num_of_measurements2).tolist())
+                RR2 = np.diag(np.repeat(noise[0, 0],
+                              num_of_measurements2).tolist() + np.repeat(
+                              noise[1, 1], num_of_measurements2).tolist())
 
-                Ev.append(ExpectedVariance2(Th, estimated_field, estimated_Sig_cond, GG2, RR2, eval_indexes))
+                Ev.append(
+                    ExpectedVariance2(Th, estimated_field, estimated_Sig_cond,
+                                      GG2, RR2, eval_indexes))
 
             mc_Ev.append(np.min(Ev))
 
@@ -263,7 +291,8 @@ def lookahead(
                 pruned_nodes.append(next_nodes[np.argmax(Ev)])
 
         # Store calculation and save the resulting variance for the survey line
-        Resulting_Variance_Change[alternative] = np.abs(prev_evar-np.mean(mc_Ev))
+        Resulting_Variance_Change[alternative] = \
+            np.abs(prev_evar - np.mean(mc_Ev))
         alternative += 1
 
     # Step over alternatives and choose the best
@@ -300,8 +329,10 @@ def myopic(
     Resulting_Variance_Change = {}
     Criteria = {}
 
-    eval_indexes = prepare_ev_grid(world_grid, world_node_loc, starting_point,
-            nx, ny)
+    eval_indexes = prepare_ev_grid(world_grid,
+                                   world_node_loc,
+                                   starting_point,
+                                   nx, ny)
 
     n = nx * ny
 
@@ -311,7 +342,8 @@ def myopic(
 
         if alternative in world_graph[starting_point]:
 
-            num_of_measurements = world_meas_nodes[(starting_point, alternative)].shape[0]
+            num_of_measurements = \
+            world_meas_nodes[(starting_point, alternative)].shape[0]
             num_of_cells_assimilated = 0
             old_si = None
             GG = np.zeros((2 * num_of_measurements, 2 * nx * ny))
@@ -322,7 +354,10 @@ def myopic(
                 # Observations
                 sample_lt = loc[1]
                 sample_ln = loc[0]
-                sx, sy, si = world_grid.getGridCoordinates(sample_lt, sample_ln, res_gx=nx, res_gy=ny)
+                sx, sy, si = world_grid.getGridCoordinates(sample_lt,
+                                                           sample_ln,
+                                                           res_gx=nx,
+                                                           res_gy=ny)
                 if not old_si:
                     old_si = si
                     num_of_cells_assimilated += 1
@@ -334,13 +369,16 @@ def myopic(
                 obs_counter += 1
 
             # Noise
-            #print('Num of cells:{}'.format(num_of_cells_assimilated))
-            RR = np.diag(np.repeat(noise[0, 0], num_of_measurements).tolist() + np.repeat(noise[1, 1], num_of_measurements).tolist())
+            # print('Num of cells:{}'.format(num_of_cells_assimilated))
+            RR = np.diag(np.repeat(noise[0, 0],
+                                   num_of_measurements).tolist() + np.repeat(
+                noise[1, 1], num_of_measurements).tolist())
 
             # Predicted observation covariance
-            EVar = ExpectedVariance2(Th, pred_field, Sig_cond, GG, RR, eval_indexes)
+            EVar = ExpectedVariance2(Th, pred_field, Sig_cond, GG, RR,
+                                     eval_indexes)
 
-            # Save the resulting reduction in variance for the survey line per observation
+            # Save the reduct. in variance for the survey-line per observation
             Resulting_Variance_Change[alternative] = np.abs(prev_evar - EVar)
 
     # Step over alternatives and choose the best
@@ -375,7 +413,8 @@ def myopic(
     return best_node_c
 
 
-def naive(starting_point, world_grid, world_graph, Th, Sig_cond, world_node_loc, world_meas_nodes, pred_field, res_x, res_y):
+def naive(starting_point, world_grid, world_graph, Th, Sig_cond,
+          world_node_loc, world_meas_nodes, pred_field, res_x, res_y):
     print('Searching for the optimal next waypoint - Naive')
     fnp_init = time.time()
     EP_score = {}
@@ -390,14 +429,17 @@ def naive(starting_point, world_grid, world_graph, Th, Sig_cond, world_node_loc,
     for i in range(0, n):
         SS = Sig_cond[np.ix_([i, n + i], [i, n + i])]
         Mxi = [pred_field[i], pred_field[n + i]]
-        pp.append(mvn.mvnun(np.array([[-np.inf], [-np.inf]]), np.array([[0], [0]]),
-                            np.subtract([Th[0], Th[1]], np.array(Mxi).ravel()), SS)[0])
+        pp.append(
+            mvn.mvnun(np.array([[-np.inf], [-np.inf]]), np.array([[0], [0]]),
+                      np.subtract([Th[0], Th[1]], np.array(Mxi).ravel()), SS)[
+                0])
 
     for alternative in world_graph:
 
         if alternative in world_graph[starting_point]:
 
-            num_of_measurements = world_meas_nodes[(starting_point, alternative)].shape[0]
+            num_of_measurements = \
+            world_meas_nodes[(starting_point, alternative)].shape[0]
             num_of_cells_assimilated = 0
             old_si = None
             GG = np.zeros((num_of_measurements, res_x * res_y))
@@ -408,7 +450,10 @@ def naive(starting_point, world_grid, world_graph, Th, Sig_cond, world_node_loc,
                 # Observations
                 sample_lt = loc[1]
                 sample_ln = loc[0]
-                sx, sy, si = world_grid.getGridCoordinates(sample_lt, sample_ln, res_gx=nx, res_gy=ny)
+                sx, sy, si = world_grid.getGridCoordinates(sample_lt,
+                                                           sample_ln,
+                                                           res_gx=nx,
+                                                           res_gy=ny)
                 if not old_si:
                     old_si = si
                     num_of_cells_assimilated += 1
