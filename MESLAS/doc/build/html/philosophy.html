@@ -1,0 +1,237 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Philosophy of the MESLAS package &mdash; MESLAS 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="plotting module" href="plotting.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MESLAS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Main Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Philosophy of the MESLAS package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MESLAS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Philosophy of the MESLAS package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/philosophy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="philosophy-of-the-meslas-package">
+<h1>Philosophy of the MESLAS package<a class="headerlink" href="#philosophy-of-the-meslas-package" title="Permalink to this headline">¶</a></h1>
+<p>The MESLAS package (<strong>M</strong>ulti-variate <strong>E</strong>xcursion <strong>S</strong>et <strong>L</strong>earning by <strong>A</strong>daptive <strong>S</strong>ampling) is a toolbox for simulation and prediction of mulitivariate Gaussian random fields.</p>
+<p>The setup of the package is the following: <span class="math notranslate nohighlight">\(\gp\)</span> is a <span class="math notranslate nohighlight">\(\no\)</span>-dimensional random
+field on a domain <span class="math notranslate nohighlight">\(\nd\)</span>-dimensional
+domain <span class="math notranslate nohighlight">\(D\)</span>.</p>
+<p>Our philosophy is to always specify spatial location and response indices
+together. That is, one should always specify textbf{where} and textbf{what}.</p>
+<p>Spatial locations are denoted by <span class="math notranslate nohighlight">\(s\)</span> and response indices by <span class="math notranslate nohighlight">\(\ell\)</span>. We will
+use boldface (or, in the code, alternatively uppercase or plurals) to denote
+vectors of such objects.</p>
+<p>A generalized sampling location is thus entirely defined by specifying two vectors</p>
+<div class="math notranslate nohighlight" id="equation-important">
+\begin{align}
+ \bm{s} &amp;= \left(s_1, ..., s_n\right)\in D^n\\
+ \bm{\ell} &amp;= \left(\ell_1, ..., \ell_n\right) \in \lbrace 1, ..., \no
+ \rbrace^n
+\end{align}</div><p>We will refer to <span class="math notranslate nohighlight">\(n\)</span> as the textit{dimension} of the generalized sampling
+location and usually just talk of location, using the word textit{spatial
+location} when we want to specifically refer to points in <span class="math notranslate nohighlight">\(D\)</span>. Also, we will
+use boldface <span class="math notranslate nohighlight">\(x\)</span> as a shortcut to refer to the couple $left(bm{s},
+bm{ell}right)$ of spatial location vector and response index vector.
+The shortcut notation <span class="math notranslate nohighlight">\(\gp[\bm{x}]\)</span> thus refers to the
+vector</p>
+<div class="math notranslate nohighlight">
+\[\gp[\bm{x}]:=\left(\gp[s_1]^{\ell_1}, ..., \gp[s_n]^{\ell_n}\right) \in \mathbb{R}^n.\]</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="plotting.html" class="btn btn-neutral float-left" title="plotting module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Trygve Olav Fossum, Jo Eidsvik, David Ginsbourger, Kanna Rajan, Cedric Travelletti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
