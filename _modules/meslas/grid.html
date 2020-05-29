@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>meslas.grid &mdash; MESLAS 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MESLAS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Main Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../grid.html">Gridding Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../means.html">means module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../excursion.html">excursion module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting.html">plotting module</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy of the MESLAS package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting.html">plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../grid.html">Gridding Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MESLAS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>meslas.grid</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for meslas.grid</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Tools for handling regular grids of points.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">KDTree</span>
+
+
+<div class="viewcode-block" id="Grid"><a class="viewcode-back" href="../../meslas.html#meslas.grid.Grid">[docs]</a><span class="k">class</span> <span class="nc">Grid</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Create a regular square grid of given dimension and size.</span>
+<span class="sd">    The grid will contain size^dim points. We alway grid over the unit cube in</span>
+<span class="sd">    dimension dim.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size: int</span>
+<span class="sd">        Number of point along one axis.</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the space to grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    coords: (size^dim, dim)</span>
+<span class="sd">        List of coordinate of each point in the grid.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">create_square_grid</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_cells</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">*</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coordinate_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the grid coordinates in a list.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Grid.isotopic_vector_to_grid"><a class="viewcode-back" href="../../meslas.html#meslas.grid.Grid.isotopic_vector_to_grid">[docs]</a>    <span class="k">def</span> <span class="nf">isotopic_vector_to_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">,</span> <span class="n">n_out</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Given  an isotopic measurement vector, reshape it to grid form.</span>
+<span class="sd">        I.e., the input vector is a list of sites, which are duplicated because</span>
+<span class="sd">        there is one instance per reponse index. We reshape it to a grid.</span>
+
+<span class="sd">        Parameter</span>
+<span class="sd">        ---------</span>
+<span class="sd">        vector: (n_out * n_cells) Tensor</span>
+<span class="sd">            Vector corresponding to isotopic measurement at every grid</span>
+<span class="sd">            coordinate.</span>
+<span class="sd">        n_out: int</span>
+<span class="sd">            Number of repsonses.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        grid_vector: (grid dim, n_out)</span>
+<span class="sd">            Vector projected back to grid.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">grid_vector</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_out</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_cells</span><span class="p">))</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+        <span class="n">grid_vector</span> <span class="o">=</span> <span class="n">grid_vector</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">n_out</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">grid_vector</span></div>
+
+<div class="viewcode-block" id="Grid.get_closest"><a class="viewcode-back" href="../../meslas.html#meslas.grid.Grid.get_closest">[docs]</a>    <span class="k">def</span> <span class="nf">get_closest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Given a list of points, for each of them return the closest grid</span>
+<span class="sd">        point. Also returns its index in the grid.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        points: (N, dim) Tensor</span>
+<span class="sd">            List of point coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        closests: (N, dim) Tensor</span>
+<span class="sd">            Coordinates of closes grid points.</span>
+<span class="sd">        closests_inds: (N, dim) Tensor</span>
+<span class="sd">            Grid indices of the closest points.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note that KDTree takes a list of points, so have to reshape.</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cells</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)))</span>
+        <span class="n">closests</span><span class="p">,</span> <span class="n">closests_inds</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+        <span class="c1"># The tree returns one dimensional indices, we turn them back to</span>
+        <span class="c1"># multidim.</span>
+        <span class="n">closests_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">closests_inds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="c1"># closests_inds = np.array(closests_inds).T</span>
+
+        <span class="k">return</span> <span class="n">closests</span><span class="p">,</span> <span class="n">closests_inds</span></div></div>
+
+<div class="viewcode-block" id="create_square_grid"><a class="viewcode-back" href="../../meslas.html#meslas.grid.create_square_grid">[docs]</a><span class="k">def</span> <span class="nf">create_square_grid</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create a regualar square grid of given dimension and size.</span>
+<span class="sd">    The grid will contain size^dim points. We alway grid over the unit cube in</span>
+<span class="sd">    dimension dim.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size: int</span>
+<span class="sd">        Number of point along one axis.</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the space to grid.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    coords: (size^dim, dim)</span>
+<span class="sd">        List of coordinate of each point in the grid.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Creat one axis.</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="c1"># Mesh with itself dim times. Stacking along dim -1 mean create new dim at</span>
+    <span class="c1"># the end.</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">dim</span> <span class="o">*</span> <span class="p">[</span><span class="n">x</span><span class="p">]),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">grid</span></div>
+
+<div class="viewcode-block" id="get_isotopic_generalized_location"><a class="viewcode-back" href="../../meslas.html#meslas.grid.get_isotopic_generalized_location">[docs]</a><span class="k">def</span> <span class="nf">get_isotopic_generalized_location</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Given a list of spatial location, create the generalized measurement</span>
+<span class="sd">    vector that corresponds to measuring ALL responses at those locations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S: (M, d) Tensor</span>
+<span class="sd">        List of spatial locations.</span>
+<span class="sd">    p: int</span>
+<span class="sd">        Number of responses.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    S_iso: (M * p, d) Tensor</span>
+<span class="sd">        Location tensor repeated p times.</span>
+<span class="sd">    L_iso: (M * p) Tensor</span>
+<span class="sd">        Response index vector for isotopic measurement.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Generate index list</span>
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">))])</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+    <span class="c1"># Repeat it by the number of cells.</span>
+    <span class="n">inds_iso</span> <span class="o">=</span> <span class="n">inds</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+
+    <span class="c1"># Repeat the cells.</span>
+    <span class="n">S_iso</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">repeat</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">S_iso</span><span class="p">,</span> <span class="n">inds_iso</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Trygve Olav Fossum, Jo Eidsvik, David Ginsbourger, Kanna Rajan, Cedric Travelletti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

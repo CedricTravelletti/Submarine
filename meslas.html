@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>meslas package &mdash; MESLAS 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MESLAS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Main Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy of the MESLAS package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MESLAS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>meslas package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/meslas.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="meslas-package">
+<h1>meslas package<a class="headerlink" href="#meslas-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-meslas.excursion">
+<span id="meslas-excursion-module"></span><h2>meslas.excursion module<a class="headerlink" href="#module-meslas.excursion" title="Permalink to this headline">¶</a></h2>
+<p>Compute coverage function, excursion sets and related quantities.</p>
+<dl class="py function">
+<dt id="meslas.excursion.coverage_fct_fixed_location">
+<code class="sig-prename descclassname">meslas.excursion.</code><code class="sig-name descname">coverage_fct_fixed_location</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mean_vec</span></em>, <em class="sig-param"><span class="n">cov_mat</span></em>, <em class="sig-param"><span class="n">lower</span></em>, <em class="sig-param"><span class="n">upper</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/excursion.html#coverage_fct_fixed_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.excursion.coverage_fct_fixed_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes coverage function at a fixed set of location.</p>
+<p>Ths function should be used when a mean vector and covariance matrix for a
+set of locations have been precomputed.</p>
+<p>Uses the torch implementation of the multivariate CDF by Sebastien Marmin,
+see torch-mvn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mean_vec: (M, p) Tensor</strong></dt><dd><p>Mean vector at each of the M locations. mean_vec[i, :] should give the
+mean vector at location nr i.</p>
+</dd>
+<dt><strong>cov_mat: (M, p, p) Tensor</strong></dt><dd><p>Covariance matrix at each of the M locations. cov_mat[i, :, :] should
+give the covariance matrix at location nr i.</p>
+</dd>
+<dt><strong>lower: (p) Tensor</strong></dt><dd><p>List of lower threshold for each response. The excursion set is the set
+where responses are above the specified threshold.
+Note that np.inf is supported.</p>
+</dd>
+<dt><strong>upper: (p) Tensor</strong></dt><dd><p>List of upper threshold for each response. The excursion set is the set
+where responses are above the specified threshold.
+If not provided, defaults to + infinity.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>excursion_prob: (M) Tensor</dt><dd><p>Probability to be in excursion at each location.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="meslas-grid-module">
+<h2>meslas.grid module<a class="headerlink" href="#meslas-grid-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-meslas.means">
+<span id="meslas-means-module"></span><h2>meslas.means module<a class="headerlink" href="#module-meslas.means" title="Permalink to this headline">¶</a></h2>
+<p>Mean functions for GRFs.</p>
+<dl class="py class">
+<dt id="meslas.means.ConstantMean">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.means.</code><code class="sig-name descname">ConstantMean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">means</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/means.html#ConstantMean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.means.ConstantMean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Constant mean function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>means: (p) array-like.</strong></dt><dd><p>Constant mean of each of the p-components.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>(self, S, L)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="meslas.means.LinearMean">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.means.</code><code class="sig-name descname">LinearMean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beta0s</span></em>, <em class="sig-param"><span class="n">beta1s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/means.html#LinearMean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.means.LinearMean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Linear trend mean function.
+The mean at location x will be given by
+beta0 + beta1 x</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>betas0: (p) array-like.</strong></dt><dd><p>Constant mean mean term for of each of the p-components.</p>
+</dd>
+<dt><strong>betas1: (p, d) array-like.</strong></dt><dd><p>Linear trend matrix for each of the p-components.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>(self, S, L)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-meslas.plotting">
+<span id="meslas-plotting-module"></span><h2>meslas.plotting module<a class="headerlink" href="#module-meslas.plotting" title="Permalink to this headline">¶</a></h2>
+<p>Plotting capabilities.</p>
+<dl class="py function">
+<dt id="meslas.plotting.plot_2D_triangular_grid">
+<code class="sig-prename descclassname">meslas.plotting.</code><code class="sig-name descname">plot_2D_triangular_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid_coords</span></em>, <em class="sig-param"><span class="n">grid_vals</span></em>, <em class="sig-param"><span class="n">S_y</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">L_y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/plotting.html#plot_2D_triangular_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.plotting.plot_2D_triangular_grid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="meslas.plotting.plot_2d_slice">
+<code class="sig-prename descclassname">meslas.plotting.</code><code class="sig-name descname">plot_2d_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sliced_sample</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/plotting.html#plot_2d_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.plotting.plot_2d_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots 2 dimensional slice.</p>
+<p>For each of the n_out responses, plot a two dimensional image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sliced_sample: (n1, n2, n_out) Tensor</strong></dt><dd><p>Two dimensional slice of a sample or prediction.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.plotting.plot_grid_probas">
+<code class="sig-prename descclassname">meslas.plotting.</code><code class="sig-name descname">plot_grid_probas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">probas</span></em>, <em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/plotting.html#plot_grid_probas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.plotting.plot_grid_probas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots excursion probability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grid: IrregularGrid</strong></dt><dd><p>Grid on which the values are defined.</p>
+</dd>
+<dt><strong>probas: (grid.n_points)</strong></dt><dd><p>Probalilities to plot, defined at the grid nodes.</p>
+</dd>
+<dt><strong>points: (N, d) Tensor</strong></dt><dd><p>Discrete points to overlay on top of the plot. Useful to plot positions
+where data has been collected.</p>
+</dd>
+<dt><strong>title: string</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.plotting.plot_grid_values">
+<code class="sig-prename descclassname">meslas.plotting.</code><code class="sig-name descname">plot_grid_values</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">vals</span></em>, <em class="sig-param"><span class="n">S_y</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">L_y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/plotting.html#plot_grid_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.plotting.plot_grid_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot values defined on a grid. Values can me multidimensional
+responses. In this case, one plot per response will be produced.
+One can also provide a generalized location vector, those will be added as
+points on top of the corresponding plot (can be used to plot observation
+locations in kriging for example).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grid: IrregularGrid</strong></dt><dd><p>Grid on which the values are defined.</p>
+</dd>
+<dt><strong>vals: (grid.n_points, p)</strong></dt><dd><p>Values to plot, defined at the grid nodes. The number of response p can
+be arbitrary.</p>
+</dd>
+<dt><strong>S_y: (n, grid.dim) Tensor (optional)</strong></dt><dd><p>Vector of spatial locations to plot as points.</p>
+</dd>
+<dt><strong>L_y: (n) Tensor (optional)</strong></dt><dd><p>Vector of response indices. Will specify on which plot the points will
+be added.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.plotting.plot_krig_slice">
+<code class="sig-prename descclassname">meslas.plotting.</code><code class="sig-name descname">plot_krig_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sliced_sample</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/plotting.html#plot_krig_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.plotting.plot_krig_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>TEMP: plot kriging mean with observations.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.plotting.plot_proba">
+<code class="sig-prename descclassname">meslas.plotting.</code><code class="sig-name descname">plot_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coverage_image</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/plotting.html#plot_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.plotting.plot_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots excursion probability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>coverage_image: (n1, n2) Tensor</strong></dt><dd></dd>
+<dt><strong>title: string</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-meslas.sampling">
+<span id="meslas-sampling-module"></span><h2>meslas.sampling module<a class="headerlink" href="#module-meslas.sampling" title="Permalink to this headline">¶</a></h2>
+<p>Sample from multivariate GRF.</p>
+<p>Convention is that p is the number of responses.
+Tensors may be returned either in <em>heterotopic</em> or in <em>isotopic</em> form.</p>
+<p>Heterotopic form means that a response index must be specified for each
+element. For example, given a vector of locations S and a vector of response indices
+L, both of size M, the heteretopic form of the mean vector at these (generalized) locations is
+a vector of size M such that its i-th element is the mean of component L[i] at
+spatial location S[i].</p>
+<p>When <em>all</em> responsed indices are considered, we use the word isotopic.
+Since under the hood, a response index vector always has to be specified, in
+the isotopic case we use L = (1, …, p, 1, …, p, 1, …, p, ….) and
+S = (s1, …, s1, s2, …, s2, …). That is, for each spatial location s_i, we
+repeat it p-times, and the response index vector is just made of the list 1,
+…, p, repeated n times, n being the number of spatial locations.</p>
+<p>Now, in this situation, it makes sense to reshape the resulting mean vector
+such that the repsonse dimensions have their own axis.
+This is what is meant by <em>isotopic form</em>. In isotopic form , the corresponding
+means vector has shape (n. p).</p>
+<dl class="py class">
+<dt id="meslas.sampling.GRF">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.sampling.</code><code class="sig-name descname">GRF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mean</span></em>, <em class="sig-param"><span class="n">covariance</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gaussian Random Field with specified mean function and covariance function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mean: function(s, l)</strong></dt><dd><p>Function returning l-th component of  mean at location s.
+Should be vectorized.</p>
+</dd>
+<dt><strong>covariance: function(s1, s2, l1, l2)</strong></dt><dd><p>Function returning the covariance matrix between the l1-th component at
+s1 and the l2-th component at l2.
+Should be vectorized.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.sampling.GRF.krig" title="meslas.sampling.GRF.krig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">krig</span></code></a>(self, S, L, S_y, L_y, y[, noise_std, …])</p></td>
+<td><p>Predict field at some generalized locations, based on some measured data at other generalized locations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.sampling.GRF.krig_grid" title="meslas.sampling.GRF.krig_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">krig_grid</span></code></a>(self, grid, S_y, L_y, y[, …])</p></td>
+<td><p>Predict field at some points, based on some measured data at other points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.sampling.GRF.krig_isotopic" title="meslas.sampling.GRF.krig_isotopic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">krig_isotopic</span></code></a>(self, points, S_y, L_y, y[, …])</p></td>
+<td><p>Predict field at some points, based on some measured data at other points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.sampling.GRF.sample" title="meslas.sampling.GRF.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(self, S, L)</p></td>
+<td><p>Sample the GRF at generalized location (S, L).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.sampling.GRF.sample_grid" title="meslas.sampling.GRF.sample_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_grid</span></code></a>(self, grid)</p></td>
+<td><p>Sample the GRF (all components) on a grid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.sampling.GRF.sample_isotopic" title="meslas.sampling.GRF.sample_isotopic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_isotopic</span></code></a>(self, points)</p></td>
+<td><p>Sample the GRF (all components) on a list of points.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="meslas.sampling.GRF.krig">
+<code class="sig-name descname">krig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">noise_std</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">compute_post_cov</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF.krig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF.krig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict field at some generalized locations, based on some measured data at other
+generalized locations.</p>
+<p>This is the most general possible form of kriging, since it takes
+measurements at generalized locations and predicts at generalized
+locations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>S: (N, d)</strong></dt><dd><p>Spatial locations at which to predict</p>
+</dd>
+<dt><strong>L: (N) Tensor</strong></dt><dd><p>Response indices to predict.</p>
+</dd>
+<dt><strong>S_y: (M, d) Tensor</strong></dt><dd><p>Spatial locations of the measurements.</p>
+</dd>
+<dt><strong>L_y: (M) Tensor</strong></dt><dd><p>Response indices of the measurements.</p>
+</dd>
+<dt><strong>y: (M) Tensor</strong></dt><dd><p>Measured values.</p>
+</dd>
+<dt><strong>noise_std: float</strong></dt><dd><p>Noise standard deviation. Uniform across all measurments.</p>
+</dd>
+<dt><strong>compute_post_cov: bool</strong></dt><dd><p>If true, compute and return posterior covariance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>mu_cond: (N) Tensor</dt><dd><p>Kriging means at each generalized location.</p>
+</dd>
+<dt>K_cond: (N, N) Tensor</dt><dd><p>Conditional covariance matrix between the generalized locations.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.krig_grid">
+<code class="sig-name descname">krig_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">noise_std</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">compute_post_cov</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF.krig_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF.krig_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict field at some points, based on some measured data at other
+points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grid: Grid</strong></dt><dd><p>Regular grid of size (n1, …, nd).</p>
+</dd>
+<dt><strong>S_y: (M, d) Tensor</strong></dt><dd><p>Spatial locations of the measurements.</p>
+</dd>
+<dt><strong>L_y: (M) Tensor</strong></dt><dd><p>Response indices of the measurements.</p>
+</dd>
+<dt><strong>y: (M) Tensor</strong></dt><dd><p>Measured values.</p>
+</dd>
+<dt><strong>noise_std: float</strong></dt><dd><p>Noise standard deviation. Uniform across all measurments.</p>
+</dd>
+<dt><strong>compute_post_cov: bool</strong></dt><dd><p>If true, compute and return posterior covariance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>mu_cond_grid: (grid.shape, p) Tensor</dt><dd><p>Kriging means at each grid node.</p>
+</dd>
+<dt>mu_cond_list: (grid.n_points*p) Tensor</dt><dd><p>Kriging mean, but in list form.</p>
+</dd>
+<dt>mu_cond_iso: (grid.n_points, p) Tensor</dt><dd><p>Kriging means in isotopic list form.</p>
+</dd>
+<dt>K_cond_list: (grid.n_points * p, grid.n_points * p) Tensor</dt><dd><p>Conditional covariance matrix in heterotopic form.</p>
+</dd>
+<dt>K_cond_iso: (grid.n_points, grid.n_points, p, p) Tensor</dt><dd><p>Conditional covariance matrix in isotopic ordered form.
+It means that the covariance matrix at cell i can be otained by
+subsetting K_cond_iso[i, i, :, :].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.krig_isotopic">
+<code class="sig-name descname">krig_isotopic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">noise_std</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">compute_post_cov</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF.krig_isotopic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF.krig_isotopic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict field at some points, based on some measured data at other
+points. Predicts all repsonses (isotopic).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: (N, d) Tensor</strong></dt><dd><p>List of points at which to predict.</p>
+</dd>
+<dt><strong>S_y: (M, d) Tensor</strong></dt><dd><p>Spatial locations of the measurements.</p>
+</dd>
+<dt><strong>L_y: (M) Tensor</strong></dt><dd><p>Response indices of the measurements.</p>
+</dd>
+<dt><strong>y: (M) Tensor</strong></dt><dd><p>Measured values.</p>
+</dd>
+<dt><strong>noise_std: float</strong></dt><dd><p>Noise standard deviation. Uniform across all measurments.</p>
+</dd>
+<dt><strong>compute_post_cov: bool</strong></dt><dd><p>If true, compute and return posterior covariance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>mu_cond_list: (N*p) Tensor</dt><dd><p>Kriging mean, but in list form.</p>
+</dd>
+<dt>mu_cond_iso: (N, p) Tensor</dt><dd><p>Kriging means in isotopic list form.</p>
+</dd>
+<dt>K_cond_list: (N * p, N * p) Tensor</dt><dd><p>Conditional covariance matrix in heterotopic form.</p>
+</dd>
+<dt>K_cond_iso: (N, N, p, p) Tensor</dt><dd><p>Conditional covariance matrix in isotopic ordered form.
+It means that the covariance matrix at cell i can be otained by
+subsetting K_cond_iso[i, i, :, :].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">L</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the GRF at generalized location (S, L).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>S: (M, d) Tensor</strong></dt><dd><p>List of spatial locations.</p>
+</dd>
+<dt><strong>L: (M) Tensor</strong></dt><dd><p>List of response indices.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>Z: (M) Tensor</dt><dd><p>The sampled value of Z_{s_i} component l_i.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.sample_grid">
+<code class="sig-name descname">sample_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">grid</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF.sample_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF.sample_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the GRF (all components) on a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grid: Grid</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>sample_grid: (n1, …, n_d, ,p) Tensor</dt><dd><p>The sampled field on the grid. Here p is the number of output
+components and n1, …, nd are the number of cells along each axis.</p>
+</dd>
+<dt>sample_list: (n_points, p) Tensor</dt><dd><p>Same as above, but in list form.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.sample_isotopic">
+<code class="sig-name descname">sample_isotopic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">points</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/meslas/sampling.html#GRF.sample_isotopic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#meslas.sampling.GRF.sample_isotopic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the GRF (all components) on a list of points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: (N, d) Tensor</strong></dt><dd><p>Spatial locations where to sample.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>sample_list: (N, p) Tensor</dt><dd><p>The sampled values.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-meslas">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-meslas" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Trygve Olav Fossum, Jo Eidsvik, David Ginsbourger, Kanna Rajan, Cedric Travelletti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
