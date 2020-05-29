@@ -22,11 +22,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -86,6 +86,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensor.html">sampling module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
@@ -161,17 +162,238 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#P"><strong>P</strong></a>
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  
 </div>
-<h2 id="P">P</h2>
+<h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="plotting.html#plotting.plot_filament">plot_filament() (in module plotting)</a>
+      <li><a href="sensor.html#meslas.sensor.Sensor.add_data">add_data() (meslas.sensor.Sensor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="sensor.html#meslas.sensor.Sensor.compute_exursion_prob">compute_exursion_prob() (meslas.sensor.Sensor method)</a>
+</li>
+      <li><a href="sensor.html#meslas.sensor.Sensor.compute_neighbors_exursion_prob">compute_neighbors_exursion_prob() (meslas.sensor.Sensor method)</a>
+</li>
+      <li><a href="meslas.html#meslas.means.ConstantMean">ConstantMean (class in meslas.means)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="plotting.html#module-plotting">plotting (module)</a>
+      <li><a href="meslas.html#meslas.excursion.coverage_fct_fixed_location">coverage_fct_fixed_location() (in module meslas.excursion)</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.create_square_grid">create_square_grid() (in module meslas.geometry.grid)</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.create_triangular_grid">create_triangular_grid() (in module meslas.geometry.grid)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="grid.html#meslas.geometry.grid.IrregularGrid.get_closest">get_closest() (meslas.geometry.grid.IrregularGrid method)</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.get_isotopic_generalized_location">get_isotopic_generalized_location() (in module meslas.geometry.grid)</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.IrregularGrid.get_neighbors">get_neighbors() (meslas.geometry.grid.IrregularGrid method)</a>
+
+      <ul>
+        <li><a href="sensor.html#meslas.sensor.Sensor.get_neighbors">(meslas.sensor.Sensor method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.sampling.GRF">GRF (class in meslas.sampling)</a>, <a href="sampling.html#meslas.sampling.GRF">[1]</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.SquareGrid.grid">grid() (meslas.geometry.grid.SquareGrid property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="grid.html#meslas.geometry.grid.IrregularGrid.interpolate_to_image">interpolate_to_image() (meslas.geometry.grid.IrregularGrid method)</a>
+
+      <ul>
+        <li><a href="grid.html#meslas.geometry.grid.SquareGrid.interpolate_to_image">(meslas.geometry.grid.SquareGrid method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="grid.html#meslas.geometry.grid.IrregularGrid">IrregularGrid (class in meslas.geometry.grid)</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.IrregularGrid.isotopic_vector_to_grid">isotopic_vector_to_grid() (meslas.geometry.grid.IrregularGrid method)</a>
+
+      <ul>
+        <li><a href="grid.html#meslas.geometry.grid.SquareGrid.isotopic_vector_to_grid">(meslas.geometry.grid.SquareGrid method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.sampling.GRF.krig">krig() (meslas.sampling.GRF method)</a>, <a href="sampling.html#meslas.sampling.GRF.krig">[1]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.sampling.GRF.krig_grid">krig_grid() (meslas.sampling.GRF method)</a>, <a href="sampling.html#meslas.sampling.GRF.krig_grid">[1]</a>
+</li>
+      <li><a href="meslas.html#meslas.sampling.GRF.krig_isotopic">krig_isotopic() (meslas.sampling.GRF method)</a>, <a href="sampling.html#meslas.sampling.GRF.krig_isotopic">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.means.LinearMean">LinearMean (class in meslas.means)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    meslas
+
+      <ul>
+        <li><a href="meslas.html#module-meslas">module</a>
+</li>
+      </ul></li>
+      <li>
+    meslas.excursion
+
+      <ul>
+        <li><a href="meslas.html#module-meslas.excursion">module</a>
+</li>
+      </ul></li>
+      <li>
+    meslas.geometry.grid
+
+      <ul>
+        <li><a href="grid.html#module-meslas.geometry.grid">module</a>
+</li>
+      </ul></li>
+      <li>
+    meslas.means
+
+      <ul>
+        <li><a href="meslas.html#module-meslas.means">module</a>
+</li>
+      </ul></li>
+      <li>
+    meslas.plotting
+
+      <ul>
+        <li><a href="meslas.html#module-meslas.plotting">module</a>
+</li>
+      </ul></li>
+      <li>
+    meslas.sampling
+
+      <ul>
+        <li><a href="meslas.html#module-meslas.sampling">module</a>, <a href="sampling.html#module-meslas.sampling">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    meslas.sensor
+
+      <ul>
+        <li><a href="sensor.html#module-meslas.sensor">module</a>
+</li>
+      </ul></li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="meslas.html#module-meslas">meslas</a>
+</li>
+        <li><a href="meslas.html#module-meslas.excursion">meslas.excursion</a>
+</li>
+        <li><a href="grid.html#module-meslas.geometry.grid">meslas.geometry.grid</a>
+</li>
+        <li><a href="meslas.html#module-meslas.means">meslas.means</a>
+</li>
+        <li><a href="meslas.html#module-meslas.plotting">meslas.plotting</a>
+</li>
+        <li><a href="meslas.html#module-meslas.sampling">meslas.sampling</a>, <a href="sampling.html#module-meslas.sampling">[1]</a>
+</li>
+        <li><a href="sensor.html#module-meslas.sensor">meslas.sensor</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.plotting.plot_2d_slice">plot_2d_slice() (in module meslas.plotting)</a>
+</li>
+      <li><a href="meslas.html#meslas.plotting.plot_2D_triangular_grid">plot_2D_triangular_grid() (in module meslas.plotting)</a>
+</li>
+      <li><a href="meslas.html#meslas.plotting.plot_grid_probas">plot_grid_probas() (in module meslas.plotting)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.plotting.plot_grid_values">plot_grid_values() (in module meslas.plotting)</a>
+</li>
+      <li><a href="meslas.html#meslas.plotting.plot_krig_slice">plot_krig_slice() (in module meslas.plotting)</a>
+</li>
+      <li><a href="meslas.html#meslas.plotting.plot_proba">plot_proba() (in module meslas.plotting)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="meslas.html#meslas.sampling.GRF.sample">sample() (meslas.sampling.GRF method)</a>, <a href="sampling.html#meslas.sampling.GRF.sample">[1]</a>
+</li>
+      <li><a href="meslas.html#meslas.sampling.GRF.sample_grid">sample_grid() (meslas.sampling.GRF method)</a>, <a href="sampling.html#meslas.sampling.GRF.sample_grid">[1]</a>
+</li>
+      <li><a href="meslas.html#meslas.sampling.GRF.sample_isotopic">sample_isotopic() (meslas.sampling.GRF method)</a>, <a href="sampling.html#meslas.sampling.GRF.sample_isotopic">[1]</a>
+</li>
+      <li><a href="sensor.html#meslas.sensor.Sensor">Sensor (class in meslas.sensor)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="sensor.html#meslas.sensor.Sensor.set_location">set_location() (meslas.sensor.Sensor method)</a>
+</li>
+      <li><a href="grid.html#meslas.geometry.grid.IrregularGrid.shape">shape() (meslas.geometry.grid.IrregularGrid property)</a>
+
+      <ul>
+        <li><a href="grid.html#meslas.geometry.grid.SquareGrid.shape">(meslas.geometry.grid.SquareGrid property)</a>
+</li>
+      </ul></li>
+      <li><a href="grid.html#meslas.geometry.grid.SquareGrid">SquareGrid (class in meslas.geometry.grid)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="grid.html#meslas.geometry.grid.TriangularGrid">TriangularGrid (class in meslas.geometry.grid)</a>
 </li>
   </ul></td>
 </tr></table>

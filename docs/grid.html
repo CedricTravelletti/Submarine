@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -86,10 +86,11 @@
               <p class="caption"><span class="caption-text">Main Modules:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Gridding Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-implementation-details">Module Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-meslas.geometry.grid">Module Implementation Details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensor.html">sampling module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
@@ -99,7 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy of the MESLAS package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Gridding Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-implementation-details">Module Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-meslas.geometry.grid">Module Implementation Details</a></li>
 </ul>
 </li>
 </ul>
@@ -203,8 +204,325 @@ This module is responsible for handling this discretization.</p>
 </tr>
 </tbody>
 </table>
-<div class="section" id="module-implementation-details">
-<h2>Module Implementation Details<a class="headerlink" href="#module-implementation-details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-meslas.geometry.grid">
+<span id="module-implementation-details"></span><h2>Module Implementation Details<a class="headerlink" href="#module-meslas.geometry.grid" title="Permalink to this headline">¶</a></h2>
+<p>Tools for handling regular grids of points.</p>
+<dl class="py class">
+<dt id="meslas.geometry.grid.IrregularGrid">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.geometry.grid.</code><code class="sig-name descname">IrregularGrid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.IrregularGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gridding of space that is just a collection of points, with no
+pre-defined regularity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: (M, d) Tensors</strong></dt><dd><p>List of points belonging to the grid.</p>
+</dd>
+<dt><strong>n_points: int</strong></dt><dd><p>Number of points in the grid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.geometry.grid.IrregularGrid.get_closest" title="meslas.geometry.grid.IrregularGrid.get_closest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_closest</span></code></a>(self, points)</p></td>
+<td><p>Given a list of points, for each of them return the closest grid point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.geometry.grid.IrregularGrid.get_neighbors" title="meslas.geometry.grid.IrregularGrid.get_neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_neighbors</span></code></a>(self, ind)</p></td>
+<td><p>Get the neighbors of a node.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.geometry.grid.IrregularGrid.interpolate_to_image" title="meslas.geometry.grid.IrregularGrid.interpolate_to_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_to_image</span></code></a>(self, vals[, …])</p></td>
+<td><p>Given a list of values at each point of the grid, interpolate it to a regular square grid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.geometry.grid.IrregularGrid.isotopic_vector_to_grid" title="meslas.geometry.grid.IrregularGrid.isotopic_vector_to_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isotopic_vector_to_grid</span></code></a>(self, vector, n_out)</p></td>
+<td><p>Given  an isotopic measurement vector, reshape it to grid form.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="meslas.geometry.grid.IrregularGrid.get_closest">
+<code class="sig-name descname">get_closest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.IrregularGrid.get_closest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of points, for each of them return the closest grid
+point. Also returns its index in the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: (N, dim) Tensor</strong></dt><dd><p>List of point coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>closests_inds: (N, dim) Tensor</dt><dd><p>Grid indices of the closest points.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.IrregularGrid.get_neighbors">
+<code class="sig-name descname">get_neighbors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">ind</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.IrregularGrid.get_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the neighbors of a node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ind: int</strong></dt><dd><p>Index of the node in the grid points list.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>neighbors_inds: (N, dim) Tensor</dt><dd><p>Grid indices of the neighboring points.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.IrregularGrid.interpolate_to_image">
+<code class="sig-name descname">interpolate_to_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vals</span></em>, <em class="sig-param"><span class="n">IM_HEIGHT</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">IM_WIDTH</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'linear'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.IrregularGrid.interpolate_to_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of values at each point of the grid, interpolate it to
+a regular square grid. Used to plot values as images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>vals: (n_points) Tensor</strong></dt><dd><p>Values of a field defined at each point of the grid.</p>
+</dd>
+<dt><strong>IM_HEIGHT: int</strong></dt><dd><p>Number of pixels in the resulting image.</p>
+</dd>
+<dt><strong>IM_WIDTH: int</strong></dt><dd><p>Number of pixels in the resulting image.</p>
+</dd>
+<dt><strong>method: string</strong></dt><dd><p>Method to use for interpolation. Default is ‘linear’, which can
+cause blanks where no points are present. Can chage to ‘nearest’ if
+want to remove blanks, but the image will be more bumpy.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>image (IM_HEIGHT, IM_WIDTH) Tensor</dt><dd><p>Values interpolated to a regular square grid (image).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.IrregularGrid.isotopic_vector_to_grid">
+<code class="sig-name descname">isotopic_vector_to_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vector</span></em>, <em class="sig-param"><span class="n">n_out</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.IrregularGrid.isotopic_vector_to_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given  an isotopic measurement vector, reshape it to grid form.
+I.e., the input vector is a list of sites, which are duplicated because
+there is one instance per reponse index. We reshape it to a grid.</p>
+<p>!! to list here</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>grid_vector: (n_cells, n_out)</dt><dd><p>Vector projected back to grid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.IrregularGrid.shape">
+<em class="property">property </em><code class="sig-name descname">shape</code><a class="headerlink" href="#meslas.geometry.grid.IrregularGrid.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the grid.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="meslas.geometry.grid.SquareGrid">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.geometry.grid.</code><code class="sig-name descname">SquareGrid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">dim</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.SquareGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#meslas.geometry.grid.IrregularGrid" title="meslas.geometry.grid.IrregularGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">meslas.geometry.grid.IrregularGrid</span></code></a></p>
+<p>Create a regular square grid of given dimension and size.
+The grid will contain size^dim points. We alway grid over the unit cube in
+dimension dim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size: int</strong></dt><dd><p>Number of point along one axis.</p>
+</dd>
+<dt><strong>dim: int</strong></dt><dd><p>Dimension of the space to grid.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>coords: (size^dim, dim)</dt><dd><p>List of coordinate of each point in the grid.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="#meslas.geometry.grid.SquareGrid.grid" title="meslas.geometry.grid.SquareGrid.grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grid</span></code></a></dt><dd><p>Returns the grid coordinates in grid shape, i.e.</p>
+</dd>
+<dt><a class="reference internal" href="#meslas.geometry.grid.SquareGrid.shape" title="meslas.geometry.grid.SquareGrid.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></dt><dd><p>Shape of the grid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.geometry.grid.SquareGrid.interpolate_to_image" title="meslas.geometry.grid.SquareGrid.interpolate_to_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_to_image</span></code></a>(self, vals)</p></td>
+<td><p>Given a list of values at each point of the grid, interpolate it to a regular square grid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.geometry.grid.SquareGrid.isotopic_vector_to_grid" title="meslas.geometry.grid.SquareGrid.isotopic_vector_to_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isotopic_vector_to_grid</span></code></a>(self, vector, n_out)</p></td>
+<td><p>Given  an isotopic measurement vector, reshape it to grid form.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="meslas.geometry.grid.SquareGrid.grid">
+<em class="property">property </em><code class="sig-name descname">grid</code><a class="headerlink" href="#meslas.geometry.grid.SquareGrid.grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the grid coordinates in grid shape, i.e. one axis per
+dimension.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.SquareGrid.interpolate_to_image">
+<code class="sig-name descname">interpolate_to_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vals</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.SquareGrid.interpolate_to_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of values at each point of the grid, interpolate it to
+a regular square grid. Used to plot values as images.</p>
+<p>On an already regular grid, we just reshape, no interpolation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>vals: (n_points) Tensor</strong></dt><dd><p>Values of a field defined at each point of the grid.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>image (IM_HEIGHT, IM_WIDTH) Tensor</dt><dd><p>Values interpolated to a regular square grid (image).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.SquareGrid.isotopic_vector_to_grid">
+<code class="sig-name descname">isotopic_vector_to_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vector</span></em>, <em class="sig-param"><span class="n">n_out</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.SquareGrid.isotopic_vector_to_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given  an isotopic measurement vector, reshape it to grid form.
+I.e., the input vector is a list of sites, which are duplicated because
+there is one instance per reponse index. We reshape it to a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>grid_vector: (grid dim, n_out)</dt><dd><p>Vector projected back to grid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.geometry.grid.SquareGrid.shape">
+<em class="property">property </em><code class="sig-name descname">shape</code><a class="headerlink" href="#meslas.geometry.grid.SquareGrid.shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="meslas.geometry.grid.TriangularGrid">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.geometry.grid.</code><code class="sig-name descname">TriangularGrid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.TriangularGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#meslas.geometry.grid.IrregularGrid" title="meslas.geometry.grid.IrregularGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">meslas.geometry.grid.IrregularGrid</span></code></a></p>
+<p>Create a grid of triangular cells. Only valid for two dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size: int</strong></dt><dd><p>Number of point along one axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.geometry.grid.create_square_grid">
+<code class="sig-prename descclassname">meslas.geometry.grid.</code><code class="sig-name descname">create_square_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">dim</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.create_square_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a regualar square grid of given dimension and size.
+The grid will contain size^dim points. We alway grid over the unit cube in
+dimension dim.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size: int</strong></dt><dd><p>Number of point along one axis.</p>
+</dd>
+<dt><strong>dim: int</strong></dt><dd><p>Dimension of the space to grid.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>coords: (size^dim, dim)</dt><dd><p>List of coordinate of each point in the grid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.geometry.grid.create_triangular_grid">
+<code class="sig-prename descclassname">meslas.geometry.grid.</code><code class="sig-name descname">create_triangular_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.create_triangular_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a triagular gridding of the unit square (only available in 2D).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size: int</strong></dt><dd><p>Number of point along one axis.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>coords: (n_points, 2)</dt><dd><p>List of coordinate of each point in the grid.
+The points correspond to the upper left corner of the corresponding
+triangle.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="meslas.geometry.grid.get_isotopic_generalized_location">
+<code class="sig-prename descclassname">meslas.geometry.grid.</code><code class="sig-name descname">get_isotopic_generalized_location</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.geometry.grid.get_isotopic_generalized_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of spatial location, create the generalized measurement
+vector that corresponds to measuring ALL responses at those locations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>S: (M, d) Tensor</strong></dt><dd><p>List of spatial locations.</p>
+</dd>
+<dt><strong>p: int</strong></dt><dd><p>Number of responses.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>S_iso: (M * p, d) Tensor</dt><dd><p>Location tensor repeated p times.</p>
+</dd>
+<dt>L_iso: (M * p) Tensor</dt><dd><p>Response index vector for isotopic measurement.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

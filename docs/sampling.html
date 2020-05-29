@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="means module" href="means.html" />
+    <link rel="next" title="sampling module" href="sensor.html" />
     <link rel="prev" title="Gridding Module" href="grid.html" />
     <link href="_static/style.css" rel="stylesheet" type="text/css">
 
@@ -87,6 +87,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensor.html">sampling module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
@@ -160,8 +161,255 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="sampling-module">
-<h1>sampling module<a class="headerlink" href="#sampling-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-meslas.sampling">
+<span id="sampling-module"></span><h1>sampling module<a class="headerlink" href="#module-meslas.sampling" title="Permalink to this headline">¶</a></h1>
+<p>Sample from multivariate GRF.</p>
+<p>Convention is that p is the number of responses.
+Tensors may be returned either in <em>heterotopic</em> or in <em>isotopic</em> form.</p>
+<p>Heterotopic form means that a response index must be specified for each
+element. For example, given a vector of locations S and a vector of response indices
+L, both of size M, the heteretopic form of the mean vector at these (generalized) locations is
+a vector of size M such that its i-th element is the mean of component L[i] at
+spatial location S[i].</p>
+<p>When <em>all</em> responsed indices are considered, we use the word isotopic.
+Since under the hood, a response index vector always has to be specified, in
+the isotopic case we use L = (1, …, p, 1, …, p, 1, …, p, ….) and
+S = (s1, …, s1, s2, …, s2, …). That is, for each spatial location s_i, we
+repeat it p-times, and the response index vector is just made of the list 1,
+…, p, repeated n times, n being the number of spatial locations.</p>
+<p>Now, in this situation, it makes sense to reshape the resulting mean vector
+such that the repsonse dimensions have their own axis.
+This is what is meant by <em>isotopic form</em>. In isotopic form , the corresponding
+means vector has shape (n. p).</p>
+<dl class="py class">
+<dt id="meslas.sampling.GRF">
+<em class="property">class </em><code class="sig-prename descclassname">meslas.sampling.</code><code class="sig-name descname">GRF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mean</span></em>, <em class="sig-param"><span class="n">covariance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gaussian Random Field with specified mean function and covariance function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mean: function(s, l)</strong></dt><dd><p>Function returning l-th component of  mean at location s.
+Should be vectorized.</p>
+</dd>
+<dt><strong>covariance: function(s1, s2, l1, l2)</strong></dt><dd><p>Function returning the covariance matrix between the l1-th component at
+s1 and the l2-th component at l2.
+Should be vectorized.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.sampling.GRF.krig" title="meslas.sampling.GRF.krig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">krig</span></code></a>(self, S, L, S_y, L_y, y[, noise_std, …])</p></td>
+<td><p>Predict field at some generalized locations, based on some measured data at other generalized locations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.sampling.GRF.krig_grid" title="meslas.sampling.GRF.krig_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">krig_grid</span></code></a>(self, grid, S_y, L_y, y[, …])</p></td>
+<td><p>Predict field at some points, based on some measured data at other points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.sampling.GRF.krig_isotopic" title="meslas.sampling.GRF.krig_isotopic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">krig_isotopic</span></code></a>(self, points, S_y, L_y, y[, …])</p></td>
+<td><p>Predict field at some points, based on some measured data at other points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.sampling.GRF.sample" title="meslas.sampling.GRF.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(self, S, L)</p></td>
+<td><p>Sample the GRF at generalized location (S, L).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#meslas.sampling.GRF.sample_grid" title="meslas.sampling.GRF.sample_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_grid</span></code></a>(self, grid)</p></td>
+<td><p>Sample the GRF (all components) on a grid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#meslas.sampling.GRF.sample_isotopic" title="meslas.sampling.GRF.sample_isotopic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_isotopic</span></code></a>(self, points)</p></td>
+<td><p>Sample the GRF (all components) on a list of points.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="meslas.sampling.GRF.krig">
+<code class="sig-name descname">krig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">noise_std</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">compute_post_cov</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF.krig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict field at some generalized locations, based on some measured data at other
+generalized locations.</p>
+<p>This is the most general possible form of kriging, since it takes
+measurements at generalized locations and predicts at generalized
+locations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>S: (N, d)</strong></dt><dd><p>Spatial locations at which to predict</p>
+</dd>
+<dt><strong>L: (N) Tensor</strong></dt><dd><p>Response indices to predict.</p>
+</dd>
+<dt><strong>S_y: (M, d) Tensor</strong></dt><dd><p>Spatial locations of the measurements.</p>
+</dd>
+<dt><strong>L_y: (M) Tensor</strong></dt><dd><p>Response indices of the measurements.</p>
+</dd>
+<dt><strong>y: (M) Tensor</strong></dt><dd><p>Measured values.</p>
+</dd>
+<dt><strong>noise_std: float</strong></dt><dd><p>Noise standard deviation. Uniform across all measurments.</p>
+</dd>
+<dt><strong>compute_post_cov: bool</strong></dt><dd><p>If true, compute and return posterior covariance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>mu_cond: (N) Tensor</dt><dd><p>Kriging means at each generalized location.</p>
+</dd>
+<dt>K_cond: (N, N) Tensor</dt><dd><p>Conditional covariance matrix between the generalized locations.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.krig_grid">
+<code class="sig-name descname">krig_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">noise_std</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">compute_post_cov</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF.krig_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict field at some points, based on some measured data at other
+points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grid: Grid</strong></dt><dd><p>Regular grid of size (n1, …, nd).</p>
+</dd>
+<dt><strong>S_y: (M, d) Tensor</strong></dt><dd><p>Spatial locations of the measurements.</p>
+</dd>
+<dt><strong>L_y: (M) Tensor</strong></dt><dd><p>Response indices of the measurements.</p>
+</dd>
+<dt><strong>y: (M) Tensor</strong></dt><dd><p>Measured values.</p>
+</dd>
+<dt><strong>noise_std: float</strong></dt><dd><p>Noise standard deviation. Uniform across all measurments.</p>
+</dd>
+<dt><strong>compute_post_cov: bool</strong></dt><dd><p>If true, compute and return posterior covariance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>mu_cond_grid: (grid.shape, p) Tensor</dt><dd><p>Kriging means at each grid node.</p>
+</dd>
+<dt>mu_cond_list: (grid.n_points*p) Tensor</dt><dd><p>Kriging mean, but in list form.</p>
+</dd>
+<dt>mu_cond_iso: (grid.n_points, p) Tensor</dt><dd><p>Kriging means in isotopic list form.</p>
+</dd>
+<dt>K_cond_list: (grid.n_points * p, grid.n_points * p) Tensor</dt><dd><p>Conditional covariance matrix in heterotopic form.</p>
+</dd>
+<dt>K_cond_iso: (grid.n_points, grid.n_points, p, p) Tensor</dt><dd><p>Conditional covariance matrix in isotopic ordered form.
+It means that the covariance matrix at cell i can be otained by
+subsetting K_cond_iso[i, i, :, :].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.krig_isotopic">
+<code class="sig-name descname">krig_isotopic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">S_y</span></em>, <em class="sig-param"><span class="n">L_y</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">noise_std</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">compute_post_cov</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF.krig_isotopic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict field at some points, based on some measured data at other
+points. Predicts all repsonses (isotopic).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: (N, d) Tensor</strong></dt><dd><p>List of points at which to predict.</p>
+</dd>
+<dt><strong>S_y: (M, d) Tensor</strong></dt><dd><p>Spatial locations of the measurements.</p>
+</dd>
+<dt><strong>L_y: (M) Tensor</strong></dt><dd><p>Response indices of the measurements.</p>
+</dd>
+<dt><strong>y: (M) Tensor</strong></dt><dd><p>Measured values.</p>
+</dd>
+<dt><strong>noise_std: float</strong></dt><dd><p>Noise standard deviation. Uniform across all measurments.</p>
+</dd>
+<dt><strong>compute_post_cov: bool</strong></dt><dd><p>If true, compute and return posterior covariance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>mu_cond_list: (N*p) Tensor</dt><dd><p>Kriging mean, but in list form.</p>
+</dd>
+<dt>mu_cond_iso: (N, p) Tensor</dt><dd><p>Kriging means in isotopic list form.</p>
+</dd>
+<dt>K_cond_list: (N * p, N * p) Tensor</dt><dd><p>Conditional covariance matrix in heterotopic form.</p>
+</dd>
+<dt>K_cond_iso: (N, N, p, p) Tensor</dt><dd><p>Conditional covariance matrix in isotopic ordered form.
+It means that the covariance matrix at cell i can be otained by
+subsetting K_cond_iso[i, i, :, :].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">L</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the GRF at generalized location (S, L).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>S: (M, d) Tensor</strong></dt><dd><p>List of spatial locations.</p>
+</dd>
+<dt><strong>L: (M) Tensor</strong></dt><dd><p>List of response indices.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>Z: (M) Tensor</dt><dd><p>The sampled value of Z_{s_i} component l_i.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.sample_grid">
+<code class="sig-name descname">sample_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">grid</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF.sample_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the GRF (all components) on a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grid: Grid</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>sample_grid: (n1, …, n_d, ,p) Tensor</dt><dd><p>The sampled field on the grid. Here p is the number of output
+components and n1, …, nd are the number of cells along each axis.</p>
+</dd>
+<dt>sample_list: (n_points, p) Tensor</dt><dd><p>Same as above, but in list form.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="meslas.sampling.GRF.sample_isotopic">
+<code class="sig-name descname">sample_isotopic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#meslas.sampling.GRF.sample_isotopic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the GRF (all components) on a list of points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: (N, d) Tensor</strong></dt><dd><p>Spatial locations where to sample.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>sample_list: (N, p) Tensor</dt><dd><p>The sampled values.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -172,7 +420,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="means.html" class="btn btn-neutral float-right" title="means module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sensor.html" class="btn btn-neutral float-right" title="sampling module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="grid.html" class="btn btn-neutral float-left" title="Gridding Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,7 +1,9 @@
+.. _sensor-label:
+
 sampling module
 ===============
 
-.. automodule:: meslas.sampling
+.. automodule:: meslas.sensor
    :members:
    :undoc-members:
    :show-inheritance:

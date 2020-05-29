@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -86,6 +86,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensor.html">sampling module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>
@@ -185,10 +186,10 @@ indentification of river plumes in coastal regions (<a class="bibtex reference i
 <div class="section" id="excursion-sets">
 <h2>Excursion Sets<a class="headerlink" href="#excursion-sets" title="Permalink to this headline">¶</a></h2>
 <p>One of the main functionality of MESLAS is the estimation of excursion sets of
-Gaussian random field. Given an <span class="math notranslate nohighlight">\(n\)</span>-dimensional multivariate GRF <span class="math notranslate nohighlight">\(\bm{Z}\)</span>,
+Gaussian random field. Given an <span class="math notranslate nohighlight">\(n\)</span>-dimensional multivariate GRF <span class="math notranslate nohighlight">\(\boldsymbol{Z}\)</span>,
 an excursion set is defined as</p>
 <div class="math notranslate nohighlight">
-\[\Gamma = \lbrace x \in X: t_i \leq \bm{Z}_x^{i} \leq t'_i,~i=1,...,n \rbrace\]</div>
+\[\Gamma = \lbrace x \in X: t_i \leq \boldsymbol{Z}_x^{i} \leq t'_i,~i=1,...,n \rbrace\]</div>
 <p>where the thresholds are allowed to be infinite.</p>
 <p>In the context of river plume indentification, the river can be modelled as an
 excursion set where the salinity and temperature are below a certain threshold.</p>
@@ -209,24 +210,64 @@ green.</span><a class="headerlink" href="#id3" title="Permalink to this image">�
 <h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
 <p>MESLAS aims at providing Gaussian Random Field functionalities that are easy to
 use, fully modular and reusable.</p>
-<p>For example, the GRF <span class="math notranslate nohighlight">\(\bm{Z}\)</span> used inf Fig.1 has a linear trend</p>
+<p>For example, the GRF <span class="math notranslate nohighlight">\(\boldsymbol{Z}\)</span> used inf Fig.1 with linear trend</p>
 <div class="math notranslate nohighlight" id="equation-important">
 \begin{align}
- \bm{\mu}(\bm{x}) &amp;= \bm{\beta}_i + \bm{\beta}_1^t \bm{x}
+ \boldsymbol{\mu}(\boldsymbol{x}) &amp;= \boldsymbol{\beta}_i + \boldsymbol{\beta}_1^t \boldsymbol{x}
 \end{align}</div><p>and factor-covariance model</p>
 <div class="math notranslate nohighlight" id="equation-important">
 \begin{align}
-Cov\left[\bm{Z}_x^i, \bm{Z}_y^j\right] &amp;= k(x, y) \gamma(i, j)
-\end{align}</div><div class="toctree-wrapper compound">
+Cov\left[\boldsymbol{Z}_x^i, \boldsymbol{Z}_y^j\right] &amp;= k(x, y) \gamma(i, j)\\
+\end{align}</div><p>with Martern 3/2 spatial covariance, and <em>uniform mixing</em> covariance defined by</p>
+<div class="math notranslate nohighlight" id="equation-important">
+\begin{align}
+\gamma(i, j) &amp;= \begin{cases} \sigma_l^2,~ i=j\\
+γ_0σ_iσ_j,~i≠ j
+     \end{cases}
+\end{align}</div><p>is straightforward to define in MESLAS and to sample from</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spatial Covariance.</span>
+<span class="n">matern_cov</span> <span class="o">=</span> <span class="n">Matern32</span><span class="p">(</span><span class="n">lmbda</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Cross covariance.</span>
+<span class="n">cross_cov</span> <span class="o">=</span> <span class="n">UniformMixing</span><span class="p">(</span><span class="n">gamma0</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">sigmas</span><span class="o">=</span><span class="p">[</span><span class="mf">2.25</span><span class="p">,</span> <span class="mf">2.25</span><span class="p">])</span>
+<span class="n">covariance</span> <span class="o">=</span> <span class="n">FactorCovariance</span><span class="p">(</span><span class="n">matern_cov</span><span class="p">,</span> <span class="n">cross_cov</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="n">n_out</span><span class="p">)</span>
+
+<span class="c1"># Specify mean function, here it is a linear trend that decreases with the</span>
+<span class="c1"># horizontal coordinate.</span>
+<span class="n">beta0s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">7.8</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">])</span>
+<span class="n">beta1s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">]])</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">LinearMean</span><span class="p">(</span><span class="n">beta0s</span><span class="p">,</span> <span class="n">beta1s</span><span class="p">)</span>
+
+<span class="c1"># Create the GRF.</span>
+<span class="n">myGRF</span> <span class="o">=</span> <span class="n">GRF</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">covariance</span><span class="p">)</span>
+
+<span class="c1"># Create an equilateral tringular grid, with 80 nodes per line.</span>
+<span class="n">my_grid</span> <span class="o">=</span> <span class="n">TriangularGrid</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+
+<span class="c1"># Sample all components (isotopic) at all locations of the grid.</span>
+<span class="n">ground_truth</span> <span class="o">=</span> <span class="n">myGRF</span><span class="o">.</span><span class="n">sample_isotopic</span><span class="p">(</span><span class="n">my_grid</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="autonomous-adaptive-sampling">
+<h2>Autonomous Adaptive Sampling<a class="headerlink" href="#autonomous-adaptive-sampling" title="Permalink to this headline">¶</a></h2>
+<p>The ultimate goal of the package is for a sensor to automatically choose
+measurement locations learn an excursion set.
+(UNFINISHED).</p>
+<p>For implementation, see <a class="reference internal" href="sensor.html#sensor-label"><span class="std std-ref">sampling module</span></a>.</p>
+<div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Main Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="grid.html">Gridding Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="grid.html#module-implementation-details">Module Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grid.html#module-meslas.geometry.grid">Module Implementation Details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">sampling module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensor.html">sampling module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="means.html">means module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="excursion.html">excursion module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">plotting module</a></li>

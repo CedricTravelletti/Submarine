@@ -21,7 +21,7 @@ vorobev_deviation               Compute Vorob'ev deviaiton of a given set at a g
 
 Module Implementation Details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. automodule:: meslas.grid
+.. automodule:: meslas.geometry.grid
    :members:
    :undoc-members:
    :show-inheritance:
